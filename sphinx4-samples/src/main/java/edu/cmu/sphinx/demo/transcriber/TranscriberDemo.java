@@ -22,7 +22,7 @@ import edu.cmu.sphinx.result.WordResult;
 
 /**
  * A simple example that shows how to transcribe a continuous audio file that
- * has multiple utterances in it.
+ * has multiple utterances in it. testing git.
  */
 public class TranscriberDemo {
 
