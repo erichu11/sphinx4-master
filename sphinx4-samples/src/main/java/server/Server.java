@@ -32,7 +32,7 @@ public class Server{
 				System.out.println("Receive data from port: 7000");
 
 				DataOutputStream outToClient = new DataOutputStream(socket.getOutputStream());
-				outToClient.writeUTF("Testing Testing");
+				outToClient.writeUTF("Testing Testing Testing Testing Testing Testing Testing Testing Testing Testing Testing Testing Testing Testing Testing Testing Testing Testing Testing Testing Testing Testing Testing Testing ");
 				outToClient.flush();
 				outToClient.close();
 				dIn.close();
