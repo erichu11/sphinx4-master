@@ -14,6 +14,8 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import edu.cmu.sphinx.demo.transcriber.TranscriberDemo;
+
 // server-side
 public class Server{
 
@@ -25,26 +27,36 @@ public class Server{
 				Socket socket = Ssocket.accept();
 				DataInputStream dIn = new DataInputStream(socket.getInputStream());
 
-				int length = dIn.readInt();                    // read length of incoming message
+				int length = dIn.readInt(); 
+				System.out.println("The length is:" + length);
+				byte[] message = new byte[length];// read length of incoming message
 				if(length>0) {
-					byte[] message = new byte[length];
+					
 					dIn.readFully(message, 0, message.length); // read the message
 				}
 				System.out.println("Receive data from port: 7000");
+				String address = "/E:/testing.wav";
+				byteArrayToWav(message, address);
+				
+				System.out.println("Transcribing voice...");
+				
+				recogniseVoice rv = new recogniseVoice();
+				String recognisedText = rv.recognise(address);
+				System.out.println("The text is: " + recognisedText);
 
 				DataOutputStream outToClient = new DataOutputStream(socket.getOutputStream());
-				outToClient.writeUTF("Testing Testing Testing Testing Testing Testing Testing Testing Testing Testing Testing Testing Testing Testing Testing Testing Testing Testing Testing Testing Testing Testing Testing Testing ");
+				outToClient.writeUTF(recognisedText);
 				outToClient.flush();
 				outToClient.close();
 				dIn.close();
-				System.out.println("Sent to client");
+				System.out.println("Send text to client");
 			}
 		} catch (Exception e){
 			e.printStackTrace();
 		}
 	}
 	
-	private void byteArrayToWav(byte[] clipData){
+	private static void byteArrayToWav(byte[] clipData, String address){
 	    try {
 	        long mySubChunk1Size = 16;
 	        int myBitsPerSample= 16;
@@ -58,8 +70,8 @@ public class Server{
 	        long myChunk2Size =  myDataSize * myChannels * myBitsPerSample/8;
 	        long myChunkSize = 36 + myChunk2Size;
 
-	        OutputStream os;        
-	        os = new FileOutputStream(new File("/......../"+ "recording"+".wav"));
+	        OutputStream os;   
+	        os = new FileOutputStream(new File(address));
 	        BufferedOutputStream bos = new BufferedOutputStream(os);
 	        DataOutputStream outFile = new DataOutputStream(bos);
 
