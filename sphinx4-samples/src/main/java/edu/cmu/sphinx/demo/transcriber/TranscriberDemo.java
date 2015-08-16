@@ -11,6 +11,7 @@
 
 package edu.cmu.sphinx.demo.transcriber;
 
+import java.io.FileInputStream;
 import java.io.InputStream;
 
 import edu.cmu.sphinx.api.Configuration;
@@ -45,55 +46,57 @@ public class TranscriberDemo {
 
         StreamSpeechRecognizer recognizer = new StreamSpeechRecognizer(
                 configuration);
-        InputStream stream = TranscriberDemo.class
-                .getResourceAsStream("/edu/cmu/sphinx/demo/aligner/10001-90210-01803.wav");
-        stream.skip(44);
+        InputStream stream = new FileInputStream("/Users/shenghaolu/Downloads/sptest/testing.wav");
+        System.out.println("Getting data");
+        //stream.skip(44);
 
         // Simple recognition with generic model
-        recognizer.startRecognition(stream);
+        //recognizer.startRecognition(stream);
         SpeechResult result;
-        while ((result = recognizer.getResult()) != null) {
-
-            System.out.format("Hypothesis: %s\n", result.getHypothesis());
-
-            System.out.println("List of recognized words and their times:");
-            for (WordResult r : result.getWords()) {
-                System.out.println(r);
-            }
-
-            System.out.println("Best 3 hypothesis:");
-            for (String s : result.getNbest(3))
-                System.out.println(s);
-
-        }
-        recognizer.stopRecognition();
+//        while ((result = recognizer.getResult()) != null) {
+//
+//            System.out.format("Hypothesis: %s\n", result.getHypothesis());
+//
+//            System.out.println("List of recognized words and their times:");
+//            for (WordResult r : result.getWords()) {
+//                System.out.println(r);
+//            }
+//
+//            System.out.println("Best 3 hypothesis:");
+//            for (String s : result.getNbest(3))
+//                System.out.println(s);
+//
+//        }
+//        recognizer.stopRecognition();
 
         // Live adaptation to speaker with speaker profiles
 
-        stream = TranscriberDemo.class
-                .getResourceAsStream("/edu/cmu/sphinx/demo/aligner/10001-90210-01803.wav");
-        stream.skip(44);
-
-        // Stats class is used to collect speaker-specific data
-        Stats stats = recognizer.createStats(1);
-        recognizer.startRecognition(stream);
-        while ((result = recognizer.getResult()) != null) {
-            stats.collect(result);
-        }
-        recognizer.stopRecognition();
-
-        // Transform represents the speech profile
-        Transform transform = stats.createTransform();
-        recognizer.setTransform(transform);
+//        stream = TranscriberDemo.class
+//                .getResourceAsStream("/edu/cmu/sphinx/demo/aligner/10001-90210-01803.wav");
+//        stream.skip(44);
+//
+//        // Stats class is used to collect speaker-specific data
+//        Stats stats = recognizer.createStats(1);
+//        recognizer.startRecognition(stream);
+//        while ((result = recognizer.getResult()) != null) {
+//            stats.collect(result);
+//        }
+//        recognizer.stopRecognition();
+//
+//        // Transform represents the speech profile
+//        Transform transform = stats.createTransform();
+//        recognizer.setTransform(transform);
 
         // Decode again with updated transform
-        stream = TranscriberDemo.class
-                .getResourceAsStream("/edu/cmu/sphinx/demo/aligner/10001-90210-01803.wav");
-        stream.skip(44);
+//        stream = TranscriberDemo.class
+//                .getResourceAsStream("/edu/cmu/sphinx/demo/aligner/10001-90210-01803.wav");
+//        stream.skip(44);
         recognizer.startRecognition(stream);
-        while ((result = recognizer.getResult()) != null) {
-            System.out.format("Hypothesis: %s\n", result.getHypothesis());
-        }
+        result = recognizer.getResult();
+        //while ((result = recognizer.getResult()) != null) {
+            //System.out.format("Hypothesis: %s\n", result.getHypothesis());
+        System.out.println("The result is: " + result.getHypothesis());
+        //}
         recognizer.stopRecognition();
 
     }
