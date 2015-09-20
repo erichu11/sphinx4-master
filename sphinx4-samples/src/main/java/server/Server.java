@@ -7,7 +7,7 @@ import java.net.Socket;
 // server-side
 public class Server{
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws IOException {
 		ServerSocket serverSocket = null;
 
 		boolean listeningSocket = true;
@@ -17,13 +17,20 @@ public class Server{
 			System.err.println("Could not listen on port: 7000");
 		}
 		System.out.println("Server is running...");
-
+		
+		try{
 		while(listeningSocket){
 			Socket clientSocket = serverSocket.accept();
 			MiniServer mini = new MiniServer(clientSocket);
 			mini.start();
 		}
-		serverSocket.close();       
+		serverSocket.close();  
+		} catch(Exception e){
+			e.printStackTrace();
+			System.out.println("Server received unknown source.");
+			serverSocket.close();
+			Server.main(args);
+		}
 	}
 }
 

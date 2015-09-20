@@ -20,7 +20,6 @@ public class recogniseVoice {
 		configuration
 		.setLanguageModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us.lm.bin");
 
-		
 		StreamSpeechRecognizer recognizer = new StreamSpeechRecognizer(
 				configuration);
 		

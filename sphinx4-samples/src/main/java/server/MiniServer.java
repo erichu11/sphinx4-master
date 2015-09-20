@@ -24,7 +24,6 @@ public class MiniServer extends Thread{
 	public void run(){
 		try {
 			DataInputStream dIn = new DataInputStream(socket.getInputStream());
-
 			int length = dIn.readInt(); 
 			byte[] message = new byte[length];// read length of incoming message
 			if(length>0) {
@@ -65,6 +64,7 @@ public class MiniServer extends Thread{
 		catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println("Server received unknown source.");
 		}
 	}
 	private static void byteArrayToWav(byte[] clipData, String address, File f){
